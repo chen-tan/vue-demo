@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="app">
+        <div 
+        class="goods"
+        v-for="(goods,index) in goodsList"
+        :key="goods.id"
+        >
+        <div class="title">{{ goods.title }}：</div>
+        <ul>
+            <li 
+            v-for="(type,typeIndex) in goods.typeList"
+            :class="{'active':typeIndex===goods.index}"
+            @click="chooseType(goods,index,type,typeIndex)"
+            >{{ type }}</li>
+        </ul>
+    </div>
+        <div class="filter">
+            <div>已选条件：</div>
+            <span class="no-goods"
+            v-if="!showFilter"
+            >暂时没有选择过滤条件</span>
+            <ul v-else>
+                <li
+                v-for="(choose,chooseKey) in fliterList"
+                >{{ choose }}
+            <span @click="deleteFilter(choose,chooseKey)">x</span>
+            </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const vm=new Vue({
+            el:'#app',
+            data:{
+                goodsList: [
+                    {
+                        title: '上装',
+                        typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣' ],
+                        id: 1,
+                    },
+                    {
+                        title: '裤装',
+                        typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤' ,'打底裤', '哈伦裤'],
+                        id: 2,
+                    },
+                    {
+                        title: '裙装',
+                        typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
+                        id: 3,
+                    }
+                ],
+                fliterList:{},
+                showFilter:false,
+            },
+            methods:{
+                chooseType(goods,index,type,typeIndex){
+                    goods.index=typeIndex;
+
+                    if(type==='全部'){
+                        Vue.delete(this.fliterList,index,type);
+                        this.changeShowFilter();
+                        return;
+                    }
+                    Vue.set(this.fliterList,index,type);
+                    this.changeShowFilter();
+                },
+                changeShowFilter(){
+                    let fliterListStr=JSON.stringify(this.fliterList);
+                    this.showFilter = fliterListStr!=='{}';
+                },
+                deleteFilter(choose,chooseKey){
+                    Vue.delete(this.fliterList,chooseKey,choose);
+                    Vue.set(this.goodsList[chooseKey],'index',0);
+                    this.changeShowFilter();
+                },
+            },
+        })
+        vm.goodsList.forEach(item=>{
+            vm.$set(item,'index',0);
+        })
+    </script>
+</body>
+</html>

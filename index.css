@@ -1,0 +1,65 @@
+*{
+    margin:0;
+    padding:0;
+}
+ul li {
+    list-style:none;
+}
+#app{
+    width:800px;
+    height:300px;
+    box-sizing:border-box;
+    border:1px solid #ccc;
+    margin:50px auto auto 100px;
+}
+#app .goods{
+    margin:0 15px;
+    height:25%;
+    border-bottom:1px solid #ccc;
+    display:flex;
+    align-items: center;
+}
+#app .goods .title{
+    font-weight:bold;
+    margin-right:10px;
+}
+#app .goods ul{
+    display: flex;
+}
+#app .goods ul li{
+    padding:3px 7px;
+    margin-right:20px;
+    border-radius:5px;
+    cursor: pointer;
+}
+#app .goods ul li.active{
+    background-color: #f88;
+}
+#app .filter{
+    height: 25%;
+    display: flex;
+    align-items: center;
+    /* line-height:75px; */
+    margin:0 15px;
+}
+#app .filter div{
+    font-weight: bold;
+    margin-right:10px;
+}
+#app .filter .no-goods{
+    font-size:14px;
+    color:#666;
+}
+#app .filter ul{
+    display: flex;
+}
+#app .filter ul li{
+    padding:3px 7px;
+    margin-right:20px;
+    border-radius:5px;
+    cursor: pointer;
+    background-color: #f88;
+}
+#app .filter ul li span{
+    color:#fff;
+}
