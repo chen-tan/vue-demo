@@ -3,89 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>toDoList</title>
     <script src="./vue.js"></script>
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
     <div id="app">
-        <div 
-        class="goods"
-        v-for="(goods,index) in goodsList"
-        :key="goods.id"
-        >
-        <div class="title">{{ goods.title }}：</div>
-        <ul>
-            <li 
-            v-for="(type,typeIndex) in goods.typeList"
-            :class="{'active':typeIndex===goods.index}"
-            @click="chooseType(goods,index,type,typeIndex)"
-            >{{ type }}</li>
-        </ul>
-    </div>
-        <div class="filter">
-            <div>已选条件：</div>
-            <span class="no-goods"
-            v-if="!showFilter"
-            >暂时没有选择过滤条件</span>
-            <ul v-else>
-                <li
-                v-for="(choose,chooseKey) in fliterList"
-                >{{ choose }}
-            <span @click="deleteFilter(choose,chooseKey)">x</span>
-            </li>
+        <div class="header">
+            <div class="container">
+                <div class="logo">toDoList</div>
+                <div class="input-area">
+                    <input type="text" :value="msg" @input="handleInput($event)">
+                    <button @click="addList">添加</button>
+                </div>
+                
+            </div>
+        </div>
+        <div class="container">
+            <h2>
+                <span>正在进行</span>
+                <span class="mask-num">{{ toDoList.length }}</span>
+            </h2>
+            <ul class="mask-list">
+                <li v-for="(doing,index) in toDoList" :key="doing.id">
+                    <div>
+                        <input type="checkbox" @change="handleChange(index,'doing')">
+                        <span>{{ doing.msg }}</span>
+                    </div>
+                    <button @click="deleteList(index,'doing')">删除</button>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            <h2>
+                <span>正在进行</span>
+                <span class="mask-num">{{ completeList.length }}</span>
+            </h2>
+            <ul class="mask-list complete-list">
+                <li v-for="(done,index) in completeList" :key="done.id">
+                    <div>
+                        <input type="checkbox" @change="handleChange(index,'done')">
+                        <span>{{ done.msg }}</span>
+                    </div>
+                    <button @click="deleteList(index,'done')">删除</button>
+                </li>
             </ul>
         </div>
     </div>
     <script>
-        const vm=new Vue({
+        const vm = new Vue({
             el:'#app',
             data:{
-                goodsList: [
-                    {
-                        title: '上装',
-                        typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣' ],
-                        id: 1,
-                    },
-                    {
-                        title: '裤装',
-                        typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤' ,'打底裤', '哈伦裤'],
-                        id: 2,
-                    },
-                    {
-                        title: '裙装',
-                        typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
-                        id: 3,
-                    }
-                ],
-                fliterList:{},
-                showFilter:false,
+                msg:'',
+                toDoList:[],
+                completeList:[],
             },
             methods:{
-                chooseType(goods,index,type,typeIndex){
-                    goods.index=typeIndex;
-
-                    if(type==='全部'){
-                        Vue.delete(this.fliterList,index,type);
-                        this.changeShowFilter();
-                        return;
+                handleInput(e){
+                    let val=e.target.value;
+                    this.msg=val;
+                },
+                addList(){
+                    this.toDoList.push({
+                        msg:this.msg,
+                        id:new Date().getTime(),
+                    });
+                    this.msg='';
+                },
+                handleChange(index,type){
+                    if(type==='done'){
+                        let doing=this.completeList.splice(index,1);
+                        this.toDoList.push(...doing);
+                    }else if(type==='doing'){
+                        let done=this.toDoList.splice(index,1);
+                        this.completeList.push(...done);
                     }
-                    Vue.set(this.fliterList,index,type);
-                    this.changeShowFilter();
+                    
                 },
-                changeShowFilter(){
-                    let fliterListStr=JSON.stringify(this.fliterList);
-                    this.showFilter = fliterListStr!=='{}';
-                },
-                deleteFilter(choose,chooseKey){
-                    Vue.delete(this.fliterList,chooseKey,choose);
-                    Vue.set(this.goodsList[chooseKey],'index',0);
-                    this.changeShowFilter();
+                deleteList(index,type){
+                    if(type==='doing'){
+                        this.toDoList.splice(index,1);
+                    }else if(type==='done'){
+                        this.completeList.splice(index,1);
+                    }
                 },
             },
-        })
-        vm.goodsList.forEach(item=>{
-            vm.$set(item,'index',0);
         })
     </script>
 </body>
