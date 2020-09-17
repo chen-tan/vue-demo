@@ -1,3 +1,6 @@
+.date-picker{
+    display:inline-block;
+}
 .picker-input{
     position:relative;
 }
@@ -7,6 +10,8 @@
     padding-left:30px;
     border:2px solid #c4c7c9;
     border-radius:4px;
+    font-size:18px;
+    color:#8b7f77;
     outline:none;
     cursor:pointer;
 }
@@ -22,7 +27,7 @@
     font-size:18px;
 }
 .picker-panel{
-    position:relative;
+    position:absolute;
     margin-top:5px;
     width:322px;
     height:329px;
@@ -62,8 +67,9 @@
     color:#8b7f77;
 } 
 .picker-panel .picker-header .picker-date{
-    margin-left:60px;
-    margin-right:60px;
+    width:90px;
+    margin-left:50px;
+    margin-right:50px;
 }
 .picker-panel .picker-weeks{
     display:flex;
@@ -72,6 +78,7 @@
     height:30px;
     margin-top:5px;
     color:#8b7f77;
+    user-select:none;
 }
 .picker-panel .picker-days{
     display:flex;
@@ -86,6 +93,11 @@
     text-align:center;
     margin:5px 8px;
     color:#8b7f77;
+    cursor:pointer;
+    user-select:none;
+}
+.picker-panel .picker-days div:hover{
+    color:#4599e7;
 }
 .picker-panel .picker-days div.is-today{
     color:#4599e7;
