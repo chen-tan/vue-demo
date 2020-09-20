@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 import Home from './views/Home.vue'
+
 Vue.use(VueRouter);
 const routes=[
     {
         path:'/',
         redirect:'/home'
+    },
+    {
+        path:'/login',
+        name:'login',
+        component:()=>import('./views/Login.vue')
     },
     { 
       name:'home',
@@ -13,15 +19,18 @@ const routes=[
       component:Home,
     },
     {
+      name:'learn',
       path:'/learn',
-      component:()=>import('./views/Learn.vue'),
-      children:[
-          {
-            name:'question',
-            path:'question/:id',
-            component:()=>import('./views/Queation')
-          },
-      ]
+      components:{
+        default:()=>import('./views/Learn.vue'),
+        activity:()=>import('./views/Activity.vue')
+      }
+    },
+    {
+        name:'question',
+        path:'/question/:id',
+        props:true,
+        component:()=>import('./views/Question')
     },
     {
       path:'/student',
@@ -29,11 +38,15 @@ const routes=[
     },
     {
       path:'/about',
-      component:()=>import('./views/About.vue')
+      component:()=>import('./views/About.vue'),
+      meta:{
+          requireLogin:true,
+      }
     },
     {
         path:'/activity',
         component:()=>import('./views/Activity.vue'),
+        
         children:[
             {
                 path:'/',
@@ -54,7 +67,19 @@ const routes=[
         ]
       },
   ];
-  export default new VueRouter({
+const router = new VueRouter({
       mode:'history',
       routes,
   })
+
+router.beforeEach((to,from,next)=>{
+    const requireLogin = to.matched.every(item=>item.meta.requireLogin);
+    if(requireLogin){
+        const goLogin=window.confirm('需要登录才可以进入，要去登录嘛？');
+        goLogin ? next('/login') : next(false);
+    }else{
+        next();
+    }
+})
+
+export default router;

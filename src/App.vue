@@ -14,6 +14,7 @@
     </div>
     <div class="container">
       <router-view></router-view>
+      <router-view name="activity"></router-view>
     </div>
   </div>
 </template>
@@ -34,7 +35,6 @@ export default {
 </script>
   
 <style scoped>
-/* @import './assets/css/reset.css'; */
 a{
   text-decoration: none;
 }

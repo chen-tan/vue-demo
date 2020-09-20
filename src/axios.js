@@ -13,6 +13,6 @@ axios.interceptors.response.use(response=>{
     return response;
 })
 
-Vue.prototype.$axios=axios;
+
 
 export default axios;
