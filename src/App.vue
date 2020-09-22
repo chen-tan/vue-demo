@@ -13,8 +13,11 @@
       </div>
     </div>
     <div class="container">
-      <router-view></router-view>
-      <router-view name="activity"></router-view>
+      <transition>
+        <router-view></router-view>
+
+      </transition>
+      <!-- <router-view name="activity"></router-view> -->
     </div>
   </div>
 </template>
@@ -35,6 +38,15 @@ export default {
 </script>
   
 <style scoped>
+#app{
+  /* overflow-x:hidden; */
+}
+.v-enter{
+  transform: translateX(500px);
+}
+.v-enter-active{
+  transition:all .3s;
+}
 a{
   text-decoration: none;
 }

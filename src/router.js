@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 import Home from './views/Home.vue'
-
+import login from './login.js';
 Vue.use(VueRouter);
 const routes=[
     {
@@ -70,13 +70,28 @@ const routes=[
 const router = new VueRouter({
       mode:'history',
       routes,
+      scrollBehavior:(to,from,savedPosition)=>{
+          if(savedPosition){
+              return savedPosition;
+          }else{
+              return {
+                  x:0,
+                  y:0
+              }
+          }
+      }
   })
 
 router.beforeEach((to,from,next)=>{
     const requireLogin = to.matched.every(item=>item.meta.requireLogin);
     if(requireLogin){
-        const goLogin=window.confirm('需要登录才可以进入，要去登录嘛？');
-        goLogin ? next('/login') : next(false);
+        const isLogin=login.isLogin();
+        if(isLogin){
+            next();
+        }else{
+            const isToLogin=window.confirm('需要登录才可以进入，要去登录嘛？');
+            isToLogin ? next('/login') : next(false);
+        }
     }else{
         next();
     }
