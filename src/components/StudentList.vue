@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div>
+            <span>学生总数：{{ countStudents }}</span>
+            <span>未成年：{{ countJuvenile }}</span>
+        </div>
         <ul>
             <li 
              v-for="student in studentList"
@@ -10,10 +14,12 @@
     
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
     computed:{
         ...mapState(['studentList']),
+        ...mapGetters(['countStudents','countJuvenile'])
     },
     
 }
