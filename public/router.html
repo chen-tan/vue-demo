@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <router-link> -->
+        <!-- hash mode -->
+    <!-- <a href="#/">首页</a>
+    <a href="#/about">关于</a> -->
+    
+    <!-- <span onclick="hashChange('/')">首页</span>
+    <span onclick="hashChange('/about')">关于</span> -->
+
+        <!-- history mode -->
+        <span onclick="historyChange('/')">首页</span>
+        <span onclick="historyChange('/about')">关于</span>
+    <!-- <router-view> -->
+    <div id="view"></div>
+    <script>
+        // document.addEventListener('DOMContentLoaded',()=>{
+        //     view.innerHTML=location.hash.slice(1);
+        // })
+        // window.addEventListener('hashchange',()=>{
+        //     view.innerHTML=location.hash.slice(1);
+        // })
+        // function hashChange(pathname){
+        //     location.hash=pathname;
+        // }
+
+        // history
+        document.addEventListener('DOMContentLoaded',()=>{
+            view.innerHTML=location.pathname;
+        })
+            function historyChange(pathname){
+                history.pushState(null,null,pathname);
+                view.innerHTML=location.pathname;
+            }
+            window.addEventListener('popstate',()=>{
+                view.innerHTML=location.pathname;
+            })
+    </script>
+</body>
+</html>

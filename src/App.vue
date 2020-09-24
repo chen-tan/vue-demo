@@ -1,23 +1,18 @@
 <template>
   <div id="app">
-    <div class="header">
-      <div class="logo" @click="toHome">
-        渡一教育
-        </div>
-      <div class="section">
-        <router-link to="/home">首页</router-link>
-        <router-link to="/learn">课程学习</router-link>
-        <router-link to="/student">学员展示</router-link>
-        <router-link to="/about">关于</router-link>
-        <router-link to="/activity">社区</router-link>
+
+    <div class="nav-box">
+      <div class="logo">渡一教育</div>
+      <div class="nav-list">
+        <router-link tag="span" to="/">首页</router-link>
+        <router-link tag="span" to="/learn">课程学习</router-link>
+        <router-link tag="span" to="/student">学员展示</router-link>
+        <router-link tag="span" to="/about">关于</router-link>
+        <router-link tag="span" to="/activity">社区</router-link>
       </div>
     </div>
     <div class="container">
-      <transition>
-        <router-view></router-view>
-
-      </transition>
-      <!-- <router-view name="activity"></router-view> -->
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -25,56 +20,47 @@
 <script>
 
 export default {
-  name: 'App',
+  name: 'app',
   components: {
-    
   },
-  methods:{
-    toHome(){
-      this.$router.push({name:'home'})
-    },
-  }
+  
 }
 </script>
-  
+
 <style scoped>
-#app{
-  /* overflow-x:hidden; */
+.nav-box {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  line-height: 60px;
+  background-color: #3385ff
 }
-.v-enter{
-  transform: translateX(500px);
+
+.nav-box .logo {
+  color: #fff;
 }
-.v-enter-active{
-  transition:all .3s;
-}
-a{
+
+.nav-list a {
+  margin-left: 40px;
+  color: #fff;
   text-decoration: none;
 }
-  .header{
-    height:60px;
-    width:100%;
-    background-color:#3385ff;
-    display:flex;
-    justify-content: space-between;
-    align-items:center;
-    
-  }
-  .header .logo{
-    margin-left:200px;
-    color:#fff;
-  }
-  .header .section{
-    margin-right:200px;
-  }
- .header .section a{
-   margin-right:20px;
-   color:#fff;
- }
- .container{
-   padding-left:200px;
-   margin-top:50px;
- }
- .router-link-active{
-   font-weight:900;
- }
+.nav-list span {
+  margin-left: 40px;
+  color: #fff;
+  text-decoration: none;
+}
+.nav-list a.router-link-exact-active {
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 60px;
+}
+
+.nav-box,
+.container {
+  padding-left: 200px;
+  padding-right: 200px;
+}
 </style>
