@@ -11,12 +11,19 @@ export default {
     },
     methods:{
         handleClick(){
-            location.hash=this.to;
+            const mode = this.$router.mode;
+            if(mode==='hash'){
+                location.hash=this.to;
+            }else{
+                history.pushState(null,null,this.to);
+                this.$router.history.current.path=this.to;
+            }
         }
     },
     render(h){
         let data={};
-        if(this.tag==='a'){
+        const mode = this.$router.mode;
+        if(this.tag==='a' && mode==='hash'){
             data.attrs={ href: '#' + this.to};
         }else{
             data.on={ click:this.handleClick}
